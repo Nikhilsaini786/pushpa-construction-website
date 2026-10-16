@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% block title %}Pushpa Construction | Building Trust, Creating Landmarks{% endblock %}
+{% block content %}
+
+<section class="hero">
+  <div class="hero-shade"></div>
+
+  <div class="hero-inner">
+    <div class="founder-card">
+      <div class="founder-frame">
+        <img
+          src="{{ url_for('static', filename='image/founder.png') }}"
+          alt="Prabhu Dayal Saini - Founder & Managing Director">
+      </div>
+      <div class="founder-badge">
+        <strong>Prabhu Dayal Saini</strong>
+        <small>Founder &amp; Managing Director</small>
+      </div>
+    </div>
+
+    <div class="hero-copy">
+      <div class="hero-logo-wrap">
+        <img
+          class="hero-logo-img"
+          src="{{ url_for('static', filename='image/logo.png') }}"
+          alt="Pushpa Construction Logo">
+      </div>
+      <h1 class="visually-hidden">Pushpa Construction</h1>
+      <h2>Building Trust • Creating Landmarks</h2>
+
+      <p>
+        Led by Prabhu Dayal Saini with 20+ years of experience
+        in construction contracting and project management across Rajasthan.
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn btn-yellow" href="tel:+919351788485">
+          ☎ <span>CALL NOW<small>+91 93517 88485</small></span>
+        </a>
+
+        <a class="btn btn-outline-yellow"
+           href="{{ url_for('contact') }}">
+          ▣ <span>GET FREE QUOTE<small>+91 79763 51000</small></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="services-section section" id="services">
+  <p class="eyebrow">WHAT WE DO</p><h2 class="section-title">Our Services</h2>
+  <div class="services-grid">
+    <article class="service-card"><span>⌂</span><h3>House<br>Construction</h3><p>Premium quality residential construction.</p></article>
+    <article class="service-card"><span>▦</span><h3>Commercial<br>Buildings</h3><p>Office, showroom and commercial building projects.</p></article>
+    <article class="service-card"><span>⚒</span><h3>Renovation &<br>Remodeling</h3><p>Modern renovation and remodeling solutions.</p></article>
+    <article class="service-card"><span>📐</span><h3>Architecture &<br>Planning</h3><p>Professional planning, designing and consultancy.</p></article>
+    <article class="service-card"><span>▰</span><h3>Infrastructure<br>Development</h3><p>Roads, civil works and infrastructure projects.</p></article>
+    <article class="service-card"><span>🏗</span><h3>Construction<br>Contracting</h3><p>Complete construction contracting and project management.</p></article>
+  </div>
+</section>
+
+
+<section class="about-section section" id="about">
+
+  <div class="about-photo">
+    <img
+      src="{{ url_for('static', filename='image/founder.png') }}"
+      alt="Prabhu Dayal Saini - Founder & Managing Director">
+    <div class="about-photo-badge">
+      <span>Prabhu Dayal Saini</span>
+      <small>Founder • 20+ Years Experience</small>
+    </div>
+  </div>
+
+  <div class="about-copy">
+    <p class="eyebrow">ABOUT OUR FOUNDER</p>
+
+    <h2>Prabhu Dayal Saini</h2>
+
+    <h3>Owner &amp; Founder – Pushpa Construction</h3>
+
+    <p>
+      With more than 20 years of experience in construction
+      contracting and project management, Prabhu Dayal Saini
+      has successfully completed residential, commercial and
+      infrastructure projects across Rajasthan.
+    </p>
+
+    <div class="achievement-grid">
+      <div>
+        <b>✹ 20+</b>
+        <span>Years Experience</span>
+      </div>
+
+      <div>
+        <b>▦ 100+</b>
+        <span>Projects Completed</span>
+      </div>
+
+      <div>
+        <b>♟ 100%</b>
+        <span>Client Satisfaction</span>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<section class="projects-section section" id="projects">
+  <p class="eyebrow">OUR REAL WORK</p>
+  <h2 class="section-title">Completed Landmark Projects</h2>
+  <div class="recent-projects">
+    {% for project in projects %}
+    <article class="recent-project-card">
+      <div class="recent-project-img-wrap">
+        {% if project.image_url %}
+        <img src="{{ project.image_url }}" alt="{{ project.title }}" loading="lazy">
+        {% else %}
+        <div class="project-placeholder">PC</div>
+        {% endif %}
+        <span class="project-badge">{{ project.category }}</span>
+      </div>
+      <div class="recent-project-content">
+        <h3>{{ project.title }}</h3>
+        <p>{{ project.description }}</p>
+        <span class="project-loc">📍 Jaipur, Rajasthan</span>
+      </div>
+    </article>
+    {% else %}
+    <p>No projects added yet.</p>
+    {% endfor %}
+  </div>
+  <div class="center-action"><a class="btn btn-dark" href="{{ url_for('projects') }}">View All Projects (100+)</a></div>
+</section>
+
+<section class="why-section section" id="why-us">
+  <p class="eyebrow">WHY CHOOSE US</p><h2 class="section-title">We Build with Excellence</h2>
+  <div class="why-grid">
+    <div><b>◆</b><h3>20+ Years Experience</h3><p>Two decades of industry expertise.</p></div>
+    <div><b>♟</b><h3>Expert Team</h3><p>Skilled professionals and engineers.</p></div>
+    <div><b>◷</b><h3>On-Time Delivery</h3><p>We value time and always deliver on time.</p></div>
+    <div><b>✹</b><h3>Quality Work</h3><p>Committed to the highest standards.</p></div>
+    <div><b>₹</b><h3>Transparent Pricing</h3><p>Honest pricing with no hidden costs.</p></div>
+    <div><b>◇</b><h3>Customer Satisfaction</h3><p>Client satisfaction is our top priority.</p></div>
+  </div>
+</section>
+<section class="contact-strip"><div><strong>☎ &nbsp; Have a Project in Mind?</strong><span>Let's build something great together!</span></div><div class="strip-phone">☎ &nbsp; Call Us <b>+91 93517 88485</b></div><div class="strip-phone">☎ &nbsp; Call Us <b>+91 79763 51000</b></div><a class="btn btn-dark" href="{{ url_for('contact') }}">GET FREE QUOTE</a></section>
+{% endblock %}

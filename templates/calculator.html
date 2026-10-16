@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% block title %}AI Construction Cost &amp; Material Calculator | Pushpa Construction{% endblock %}
+{% block content %}
+<section class="page-hero">
+  <p class="eyebrow">SMART BUDGET &amp; MATERIAL PLANNER</p>
+  <h1>AI Construction Cost &amp; Material Estimator</h1>
+  <p>Accurately estimate construction costs, required structural materials (cement, steel, bricks), and project timeline for your plot in Jaipur.</p>
+</section>
+
+<section class="section narrow-section" style="max-width: 950px;">
+  
+  <!-- CONSTRUCTION QUALITY TIER CARDS -->
+  <div style="margin-bottom: 22px;">
+    <label style="font-weight: 800; font-size: 13px; text-transform: uppercase; color: var(--gold2); display: block; margin-bottom: 10px;">
+      💡 Select Construction Quality Tier (Jaipur Market Standards):
+    </label>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+      <button type="button" class="tier-btn" onclick="selectTier(1500, 'Standard Package')" style="text-align: left; background: #fff; border: 2px solid #ddd; border-radius: 6px; padding: 12px; cursor: pointer; transition: all 0.2s;">
+        <strong style="display: block; font-size: 14px; color: #111;">Standard</strong>
+        <span style="display: block; color: var(--gold2); font-weight: 800; font-size: 15px; margin: 3px 0;">₹1,500 / sq ft</span>
+        <small style="color: #666; font-size: 11px;">Standard RCC, red bricks, Asian Paints, standard vitrified tiles.</small>
+      </button>
+
+      <button type="button" class="tier-btn" onclick="selectTier(1850, 'Premium Package')" style="text-align: left; background: #fff; border: 2px solid var(--gold); border-radius: 6px; padding: 12px; cursor: pointer; transition: all 0.2s;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <strong style="font-size: 14px; color: #111;">Premium</strong>
+          <span style="background: var(--gold); color: #111; font-size: 9px; font-weight: 900; padding: 2px 6px; border-radius: 3px;">POPULAR</span>
+        </div>
+        <span style="display: block; color: var(--gold2); font-weight: 800; font-size: 15px; margin: 3px 0;">₹1,850 / sq ft</span>
+        <small style="color: #666; font-size: 11px;">Tata/Jindal steel, UltraTech cement, premium fittings, false ceilings.</small>
+      </button>
+
+      <button type="button" class="tier-btn" onclick="selectTier(2400, 'Luxury Villa Package')" style="text-align: left; background: #fff; border: 2px solid #ddd; border-radius: 6px; padding: 12px; cursor: pointer; transition: all 0.2s;">
+        <strong style="display: block; font-size: 14px; color: #111;">Luxury Villa</strong>
+        <span style="display: block; color: var(--gold2); font-weight: 800; font-size: 15px; margin: 3px 0;">₹2,400+ / sq ft</span>
+        <small style="color: #666; font-size: 11px;">Italian marble, teak wood, automated smart lighting, designer facade.</small>
+      </button>
+    </div>
+  </div>
+
+  <div class="form-card" style="box-shadow: 0 6px 25px rgba(0,0,0,0.06);">
+    <form method="post" id="calcForm" class="form-grid">
+      <div class="field">
+        <label for="area">Plot / Built-up Area per Floor (Sq Ft) *</label>
+        <input id="area" name="area" type="number" min="100" max="500000" step="1" placeholder="e.g. 1000" value="{{ request.form.get('area', '1200') if request.form else '1200' }}" required>
+        <span style="font-size: 11px; color: #777;">Typical Jaipur plot: 100 sq yds ≈ 900 sq ft, 200 sq yds ≈ 1800 sq ft</span>
+      </div>
+
+      <div class="field">
+        <label for="floors">Number of Floors (Storeys) *</label>
+        <select id="floors" name="floors" required>
+          <option value="1" {% if request.form.get('floors') == '1' %}selected{% endif %}>Ground Floor Only (1 Floor)</option>
+          <option value="2" {% if not request.form or request.form.get('floors') == '2' %}selected{% endif %}>G + 1 (2 Floors - Most Common)</option>
+          <option value="3" {% if request.form.get('floors') == '3' %}selected{% endif %}>G + 2 (3 Floors)</option>
+          <option value="4" {% if request.form.get('floors') == '4' %}selected{% endif %}>G + 3 (4 Floors)</option>
+          <option value="5" {% if request.form.get('floors') == '5' %}selected{% endif %}>G + 4 (5 Floors)</option>
+        </select>
+      </div>
+
+      <div class="field full">
+        <label for="rate">Estimated Rate per Sq Ft (₹) *</label>
+        <input id="rate" name="rate" type="number" min="500" max="25000" step="1" value="{{ request.form.get('rate', '1850') if request.form else '1850' }}" required>
+      </div>
+
+      <div class="full">
+        <button class="btn btn-primary" type="submit" style="width: 100%; padding: 14px; font-size: 14.5px;">
+          ⚡ Calculate Cost &amp; AI Material Breakdown
+        </button>
+      </div>
+    </form>
+
+    {% if result %}
+    <div class="estimate-result" style="margin-top: 30px; border-top: 2px dashed #f0d995; padding-top: 25px;">
+      <div style="background: #111517; color: #fff; border-radius: 8px; padding: 22px; margin-bottom: 25px; border: 1px solid var(--gold);">
+        <p class="eyebrow" style="color: var(--gold);">ESTIMATION SUMMARY</p>
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 15px; margin-top: 10px;">
+          <div>
+            <div style="font-size: 14px; color: #ccc;">Total Built-Up Area: <strong style="color: #fff;">{{ "{:,.0f}".format(result.area) }} Sq Ft</strong> ({{ result.floors }} Floors)</div>
+            <div style="font-size: 14px; color: #ccc; margin-top: 4px;">Assumed Specification Rate: <strong style="color: #fff;">₹{{ "{:,.0f}".format(result.rate) }} / Sq Ft</strong></div>
+          </div>
+          <div style="text-align: right;">
+            <span style="font-size: 11px; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px;">Approximate Total Cost</span>
+            <div class="estimate-total" style="color: var(--gold); font-size: 38px; line-height: 1;">₹{{ "{:,.0f}".format(result.cost) }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI STRUCTURAL MATERIAL BREAKDOWN -->
+      <h3 style="margin: 0 0 14px; font-size: 18px; font-weight: 800; color: #111; display: flex; align-items: center; gap: 8px;">
+        🤖 AI Material &amp; Resource Breakdown (Estimated)
+      </h3>
+      
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 25px;">
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 14px;">
+          <span style="font-size: 22px;">🏗️</span>
+          <strong style="display: block; font-size: 13px; margin: 4px 0 2px;">Cement Bags</strong>
+          <span style="font-size: 20px; font-weight: 800; color: #1e293b;">{{ "{:,.0f}".format(result.cement_bags) }} Bags</span>
+          <small style="display: block; font-size: 11px; color: #64748b;">(Grade 43/53 PPC/OPC)</small>
+        </div>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 14px;">
+          <span style="font-size: 22px;">⛓️</span>
+          <strong style="display: block; font-size: 13px; margin: 4px 0 2px;">Steel (TMT Bars)</strong>
+          <span style="font-size: 20px; font-weight: 800; color: #1e293b;">{{ "{:,.2f}".format(result.steel_tons) }} Tons</span>
+          <small style="display: block; font-size: 11px; color: #64748b;">(Fe 500D / 550D TMT)</small>
+        </div>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 14px;">
+          <span style="font-size: 22px;">🧱</span>
+          <strong style="display: block; font-size: 13px; margin: 4px 0 2px;">Bricks / Blocks</strong>
+          <span style="font-size: 20px; font-weight: 800; color: #1e293b;">{{ "{:,.0f}".format(result.bricks_count) }} Pcs</span>
+          <small style="display: block; font-size: 11px; color: #64748b;">(Red Clay / AAC Blocks)</small>
+        </div>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 14px;">
+          <span style="font-size: 22px;">🏖️</span>
+          <strong style="display: block; font-size: 13px; margin: 4px 0 2px;">Sand (Bajri)</strong>
+          <span style="font-size: 20px; font-weight: 800; color: #1e293b;">{{ "{:,.0f}".format(result.sand_cuft) }} Cu.Ft</span>
+          <small style="display: block; font-size: 11px; color: #64748b;">(River Sand / M-Sand)</small>
+        </div>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 14px;">
+          <span style="font-size: 22px;">🪨</span>
+          <strong style="display: block; font-size: 13px; margin: 4px 0 2px;">Aggregate (Gitti)</strong>
+          <span style="font-size: 20px; font-weight: 800; color: #1e293b;">{{ "{:,.0f}".format(result.aggregate_cuft) }} Cu.Ft</span>
+          <small style="display: block; font-size: 11px; color: #64748b;">(10mm &amp; 20mm Blue Metal)</small>
+        </div>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 14px;">
+          <span style="font-size: 22px;">⏳</span>
+          <strong style="display: block; font-size: 13px; margin: 4px 0 2px;">Estimated Timeline</strong>
+          <span style="font-size: 20px; font-weight: 800; color: #1e293b;">~{{ result.duration_months }} Months</span>
+          <small style="display: block; font-size: 11px; color: #64748b;">(Foundation to Handover)</small>
+        </div>
+      </div>
+
+      <!-- WHATSAPP & ACTIONS BAR -->
+      <div style="background: #eefbf3; border: 1px solid #c7ecd4; border-radius: 8px; padding: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+        <div>
+          <strong style="color: #128c7e; font-size: 15px; display: block;">📲 Want an exact site quote for this estimate?</strong>
+          <span style="font-size: 12px; color: #444;">Share this calculation directly with Prabhu Dayal Saini to discuss on WhatsApp.</span>
+        </div>
+        <a href="https://wa.me/919351788485?text=Hello%20Prabhu%20Dayal%20ji!%20I%20calculated%20an%20estimate%20on%20your%20website%20for%20a%20{{ '{:,.0f}'.format(result.area) }}%20sq%20ft%20construction%20project%20({{ result.floors }}%20floors)%20at%20₹{{ '{:,.0f}'.format(result.rate) }}/sq%20ft%20(Estimated%20Total:%20₹{{ '{:,.0f}'.format(result.cost) }}).%20I%20would%20like%20to%20discuss%20the%20detailed%20plan%20and%20book%20a%20free%20site%20visit." target="_blank" rel="noopener" class="btn" style="background: #25D366; color: #fff; padding: 12px 20px; font-size: 13.5px; border-radius: 4px; box-shadow: 0 4px 12px rgba(37,211,102,0.35);">
+          💬 Discuss on WhatsApp ➔
+        </a>
+      </div>
+
+      <div style="margin-top: 18px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #666;">
+        <p class="small-note" style="margin: 0;">Indicative preliminary estimate only. Actual structural quantities depend on architectural design, soil bearing capacity, and local JDA bylaws.</p>
+        <a href="{{ url_for('contact') }}" style="color: var(--gold2); font-weight: 800; white-space: nowrap; margin-left: 15px;">Book Site Inspection ↗</a>
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+
+<script>
+function selectTier(rate, title) {
+  const rateInput = document.getElementById('rate');
+  if (rateInput) {
+    rateInput.value = rate;
+  }
+}
+</script>
+{% endblock %}
+

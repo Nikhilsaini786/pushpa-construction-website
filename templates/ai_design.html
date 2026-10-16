@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block title %}AI House &amp; Architectural Concept Studio | Pushpa Construction{% endblock %}
+{% block content %}
+<section class="page-hero">
+  <p class="eyebrow">AI ARCHITECTURAL INNOVATION</p>
+  <h1>Imagine &amp; Visualize Your Future Landmark</h1>
+  <p>Describe your dream home or commercial building in Jaipur. Explore architectural styles, generate concept prompts, and consult our engineering team for turnkey construction.</p>
+</section>
+
+<section class="section" style="max-width: 1200px; margin: auto; padding-top: 30px;">
+  
+  <!-- QUICK STYLE INSPIRATION PILLS -->
+  <div style="margin-bottom: 25px;">
+    <label style="font-weight: 800; font-size: 13px; text-transform: uppercase; color: var(--gold2); display: block; margin-bottom: 10px;">
+      🎨 Select an Architectural Style Preset (Click to Auto-Fill Prompt):
+    </label>
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;">
+      <button type="button" class="style-preset-btn" onclick="applyPreset('Modern Rajasthani Haveli Fusion: A luxurious 2-storey Indian villa in Jaipur with contemporary glass balconies, subtle Dholpur sandstone jali accents, grand carved entrance door, landscaped front lawn, and warm golden architectural night lighting.')" style="text-align: left; background: #fff; border: 1.5px solid #e2e8f0; border-radius: 6px; padding: 14px; cursor: pointer; transition: all 0.2s;">
+        <span style="font-size: 22px; display: block; margin-bottom: 6px;">🏰</span>
+        <strong style="display: block; font-size: 13.5px; color: #111;">Modern Rajasthani Haveli</strong>
+        <small style="color: #666; font-size: 11px;">Sandstone jali, arches &amp; contemporary luxury</small>
+      </button>
+
+      <button type="button" class="style-preset-btn" onclick="applyPreset('Contemporary Minimalist Luxury Villa: Ultra-modern 3-storey residence with sleek cantilevered balconies, floor-to-ceiling glass facades, textured dark grey concrete, warm teak wood battens, and private rooftop swimming pool.')" style="text-align: left; background: #fff; border: 1.5px solid #e2e8f0; border-radius: 6px; padding: 14px; cursor: pointer; transition: all 0.2s;">
+        <span style="font-size: 22px; display: block; margin-bottom: 6px;">🏡</span>
+        <strong style="display: block; font-size: 13.5px; color: #111;">Contemporary Villa</strong>
+        <small style="color: #666; font-size: 11px;">Cantilevered glass, teak wood &amp; clean geometry</small>
+      </button>
+
+      <button type="button" class="style-preset-btn" onclick="applyPreset('Commercial Showroom & Corporate Complex: A 4-storey commercial building in prime Jaipur with dynamic glass curtain facade, gold metallic louvers, illuminated brand signage, and spacious basement parking entrance.')" style="text-align: left; background: #fff; border: 1.5px solid #e2e8f0; border-radius: 6px; padding: 14px; cursor: pointer; transition: all 0.2s;">
+        <span style="font-size: 22px; display: block; margin-bottom: 6px;">🏢</span>
+        <strong style="display: block; font-size: 13.5px; color: #111;">Commercial Complex</strong>
+        <small style="color: #666; font-size: 11px;">Glass curtain wall, modern retail showroom &amp; ACP</small>
+      </button>
+
+      <button type="button" class="style-preset-btn" onclick="applyPreset('Biophilic Green Terrace Duplex: An eco-friendly duplex home with vertical green climbing walls, rooftop solar pergola garden, rainwater harvesting design, natural daylight courtyards, and Kota stone accents.')" style="text-align: left; background: #fff; border: 1.5px solid #e2e8f0; border-radius: 6px; padding: 14px; cursor: pointer; transition: all 0.2s;">
+        <span style="font-size: 22px; display: block; margin-bottom: 6px;">🌿</span>
+        <strong style="display: block; font-size: 13.5px; color: #111;">Green Terrace Duplex</strong>
+        <small style="color: #666; font-size: 11px;">Vertical gardens, solar pergola &amp; open courtyards</small>
+      </button>
+    </div>
+  </div>
+
+  <div class="form-card" style="box-shadow: 0 8px 25px rgba(0,0,0,0.06);">
+    <form method="post" class="form-grid">
+      <div class="field full">
+        <label for="prompt">Describe Your Architectural Brief *</label>
+        <textarea id="prompt" name="prompt" rows="4" maxlength="1000" placeholder="e.g. Modern two-storey family villa in Jaipur with cream stone facade, wooden louvers, expansive glass balcony, landscaped driveway, and warm architectural lighting..." required>{{ prompt_used }}</textarea>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
+          <span class="small-note">Specify exterior colors, floor count, materials (stone, glass, wood), and lighting for best results.</span>
+          <span style="font-size: 11px; color: #888;">Max 1,000 characters</span>
+        </div>
+      </div>
+
+      <div class="full" style="display: flex; gap: 14px; flex-wrap: wrap;">
+        <button class="btn btn-primary" type="submit" style="flex: 1; padding: 14px; font-size: 14px;">
+          ✦ Generate AI Architectural Concept
+        </button>
+        <button type="button" id="sharePromptWhatsApp" class="btn" style="background: #25D366; color: #fff; padding: 14px 20px; font-size: 14px; border: 1px solid #1ebe5d;">
+          💬 Send Design Brief on WhatsApp
+        </button>
+      </div>
+    </form>
+
+    {% if image_data %}
+    <div class="generated-image" style="margin-top: 30px; border-top: 2px dashed #f0d995; padding-top: 25px; text-align: center;">
+      <h2 style="font-size: 22px; margin: 0 0 10px;">🌟 Your AI Concept Visualization</h2>
+      <div style="max-width: 800px; margin: auto; border: 3px solid var(--gold); border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.25);">
+        <img src="data:image/png;base64,{{ image_data }}" alt="AI generated architectural concept" style="width: 100%; height: auto; display: block;">
+      </div>
+      
+      <div style="margin-top: 20px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+        <a href="https://wa.me/919351788485?text=Hello%20Prabhu%20Dayal%20ji,%20I%20generated%20an%20architectural%20concept%20on%20your%20website%20with%20the%20following%20brief:%20{{ prompt_used|urlencode }}.%20Can%20we%20discuss%20bringing%20this%20design%20to%20life%20with%20real%20blueprints?" target="_blank" rel="noopener" class="btn" style="background: #25D366; color: #fff; padding: 12px 24px;">
+          💬 Discuss this Design with Prabhu Dayal Saini on WhatsApp ➔
+        </a>
+        <a href="{{ url_for('calculator') }}" class="btn btn-outline-yellow" style="color: #111; border-color: #333; padding: 12px 24px;">
+          💰 Calculate Construction Cost
+        </a>
+      </div>
+
+      <p class="small-note" style="margin-top: 15px;">AI-generated concept image is for architectural inspiration. Final construction drawings, structural stability, and municipal JDA approvals will be crafted by Pushpa Construction's certified architects.</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- HOW PUSHPA CONSTRUCTION TURNS CONCEPTS INTO REALITY -->
+  <div style="margin-top: 35px; background: #111517; color: #fff; border-radius: 8px; padding: 28px; border: 1px solid var(--gold);">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 15px;">
+      <div>
+        <h3 style="margin: 0 0 5px; font-size: 20px; color: var(--gold);">From Concept to Concrete: Our 4-Step Turnkey Process</h3>
+        <p style="margin: 0; font-size: 13px; color: #ccc;">How Prabhu Dayal Saini &amp; team turn your vision into a landmark in Jaipur:</p>
+      </div>
+      <a href="https://wa.me/919351788485?text=Hello%20Prabhu%20Dayal%20ji,%20I%20would%20like%20to%20book%20a%20free%20architectural%20consultation." target="_blank" rel="noopener" class="btn btn-yellow btn-small" style="padding: 8px 16px;">
+        Book Free Consultation
+      </a>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
+      <div style="background: rgba(255,255,255,0.03); border: 1px solid #333; border-radius: 6px; padding: 15px;">
+        <span style="font-size: 24px; color: var(--gold); display: block; margin-bottom: 6px;">01</span>
+        <strong style="font-size: 14px; display: block; margin-bottom: 4px;">Site Visit &amp; Soil Test</strong>
+        <p style="margin: 0; font-size: 11.5px; color: #aaa;">Free inspection of your plot across Jaipur, soil testing and survey.</p>
+      </div>
+
+      <div style="background: rgba(255,255,255,0.03); border: 1px solid #333; border-radius: 6px; padding: 15px;">
+        <span style="font-size: 24px; color: var(--gold); display: block; margin-bottom: 6px;">02</span>
+        <strong style="font-size: 14px; display: block; margin-bottom: 4px;">3D Elevation &amp; Plans</strong>
+        <p style="margin: 0; font-size: 11.5px; color: #aaa;">Vastu-compliant architectural floor plans, 3D front elevations, and JDA approval assistance.</p>
+      </div>
+
+      <div style="background: rgba(255,255,255,0.03); border: 1px solid #333; border-radius: 6px; padding: 15px;">
+        <span style="font-size: 24px; color: var(--gold); display: block; margin-bottom: 6px;">03</span>
+        <strong style="font-size: 14px; display: block; margin-bottom: 4px;">Turnkey Construction</strong>
+        <p style="margin: 0; font-size: 11.5px; color: #aaa;">High-grade RCC foundation, UltraTech cement, Tata steel, on-site supervision.</p>
+      </div>
+
+      <div style="background: rgba(255,255,255,0.03); border: 1px solid #333; border-radius: 6px; padding: 15px;">
+        <span style="font-size: 24px; color: var(--gold); display: block; margin-bottom: 6px;">04</span>
+        <strong style="font-size: 14px; display: block; margin-bottom: 4px;">On-Time Handover</strong>
+        <p style="margin: 0; font-size: 11.5px; color: #aaa;">Guaranteed handover with structural warranty, clean finishing, and keys delivery.</p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<script>
+function applyPreset(text) {
+  const promptEl = document.getElementById('prompt');
+  if (promptEl) {
+    promptEl.value = text;
+    promptEl.focus();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const shareBtn = document.getElementById('sharePromptWhatsApp');
+  if (shareBtn) {
+    shareBtn.addEventListener('click', () => {
+      const promptEl = document.getElementById('prompt');
+      const text = promptEl ? promptEl.value.trim() : '';
+      if (!text) {
+        alert('Please describe or select an architectural design first!');
+        return;
+      }
+      const waUrl = 'https://wa.me/919351788485?text=' + encodeURIComponent('Hello Prabhu Dayal ji! I am designing an architectural concept on Pushpa Construction website:\n\n*Brief:* ' + text + '\n\nPlease let me know when we can discuss this design and plan a site visit.');
+      window.open(waUrl, '_blank');
+    });
+  }
+});
+</script>
+{% endblock %}
+

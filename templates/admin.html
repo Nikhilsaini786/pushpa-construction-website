@@ -1,0 +1,273 @@
+{% extends "base.html" %}
+{% block title %}Admin Control Panel | Pushpa Construction{% endblock %}
+{% block content %}
+<section class="page-hero">
+  <p class="eyebrow">ADMINISTRATION &amp; CONTROL</p>
+  <h1>Admin Control Panel</h1>
+  <p>Manage real projects portfolio, review incoming client inquiries, and monitor registered accounts.</p>
+</section>
+
+<section class="section admin-section">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
+    <div>
+      <h2 style="margin: 0; font-size: 24px; font-weight: 800;">System Overview</h2>
+      <span style="font-size: 13px; color: #666;">Logged in as: <strong>{{ session.get('email') }}</strong> (Administrator)</span>
+    </div>
+    <div style="display: flex; gap: 10px;">
+      <a href="{{ url_for('projects') }}" target="_blank" class="btn btn-outline-yellow" style="color: #111; border-color: #333; font-size: 12px; padding: 8px 14px;">
+        👁️ View Live Projects Page ↗
+      </a>
+      <a href="{{ url_for('logout') }}" class="btn btn-danger btn-small" style="padding: 8px 14px; font-size: 12px;">
+        🔒 Logout Admin
+      </a>
+    </div>
+  </div>
+
+  <div class="admin-stats">
+    <div class="admin-stat">
+      <span>Total Projects</span>
+      <strong>{{ projects|length }}</strong>
+      <small style="color: #aaa; margin-top: 4px; font-size: 11px;">Published on website</small>
+    </div>
+    <div class="admin-stat">
+      <span>Customer Enquiries</span>
+      <strong>{{ enquiries|length }}</strong>
+      <small style="color: #aaa; margin-top: 4px; font-size: 11px;">Quotes &amp; consultations</small>
+    </div>
+    <div class="admin-stat">
+      <span>Registered Users</span>
+      <strong>{{ users|length }}</strong>
+      <small style="color: #aaa; margin-top: 4px; font-size: 11px;">Clients &amp; administrators</small>
+    </div>
+  </div>
+
+  <!-- ADD PROJECT CARD -->
+  <div class="admin-card" id="add-project-card" style="border-top: 4px solid var(--gold);">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; border-bottom: 1px solid #eee; padding-bottom: 12px;">
+      <div>
+        <h2 style="margin: 0; font-size: 20px;">➕ Add New Construction Project</h2>
+        <p style="margin: 4px 0 0; font-size: 13px; color: #666;">Publish a new completed or ongoing project directly to the website portfolio.</p>
+      </div>
+      <span style="background: #fff8e1; border: 1px solid #ffd54f; color: #b78103; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 4px;">
+        Direct Upload Supported
+      </span>
+    </div>
+
+    <form method="post" action="{{ url_for('add_project') }}" enctype="multipart/form-data" class="form-grid">
+      <div class="field">
+        <label for="title">Project Title *</label>
+        <input id="title" name="title" maxlength="160" placeholder="e.g. Modern Luxury Villa, Vaishali Nagar" required>
+      </div>
+
+      <div class="field">
+        <label for="category">Category *</label>
+        <select id="category" name="category" required>
+          <option value="Residential">Residential Construction</option>
+          <option value="Commercial">Commercial Complex</option>
+          <option value="Turnkey Construction">Turnkey Construction</option>
+          <option value="Renovation">Renovation &amp; Remodeling</option>
+          <option value="Interior">Interior &amp; Elevation</option>
+          <option value="Infrastructure">Infrastructure Development</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="image_file">📁 Upload Project Image File (Recommended)</label>
+        <input id="image_file" name="image_file" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+        <span style="font-size: 11px; color: #777;">Supported formats: JPG, PNG, WEBP, GIF (Max: 16MB)</span>
+      </div>
+
+      <div class="field">
+        <label for="image_url">🔗 Or Image URL (Optional)</label>
+        <input id="image_url" name="image_url" type="text" maxlength="500" placeholder="e.g. /static/image/project-1.jpg or https://...">
+        <span style="font-size: 11px; color: #777;">Used if no file is selected above</span>
+      </div>
+
+      <div class="field full">
+        <label for="description">Project Description *</label>
+        <textarea id="description" name="description" rows="3" placeholder="Provide details about structural scope, area, location in Jaipur, architectural highlights, materials used..." required></textarea>
+      </div>
+
+      <div class="full" style="display: flex; gap: 12px; align-items: center; margin-top: 8px;">
+        <button class="btn btn-primary" type="submit" style="padding: 12px 24px;">
+          🚀 Publish Project to Website
+        </button>
+        <span style="font-size: 12px; color: #666;">New projects will be immediately visible on Home and Projects pages.</span>
+      </div>
+    </form>
+  </div>
+
+  <!-- PROJECTS MANAGEMENT TABLE -->
+  <div class="admin-card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+      <div>
+        <h2 style="margin: 0; font-size: 20px;">🏗️ Manage Existing Projects ({{ projects|length }})</h2>
+        <span style="font-size: 12px; color: #666;">All projects currently published on Pushpa Construction website.</span>
+      </div>
+      <a href="#add-project-card" class="btn btn-yellow btn-small">+ Add New</a>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 80px;">Photo</th>
+            <th style="min-width: 180px;">Project Title</th>
+            <th style="width: 140px;">Category</th>
+            <th style="min-width: 250px;">Description</th>
+            <th style="width: 100px; text-align: center;">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in projects %}
+          <tr>
+            <td>
+              {% if p.image_url %}
+              <img src="{{ p.image_url }}" alt="{{ p.title }}" class="admin-thumb" style="width: 75px; height: 55px; object-fit: cover; border-radius: 4px; border: 1px solid #d5a000;">
+              {% else %}
+              <div style="width: 75px; height: 55px; background: #eee; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #888; border-radius: 4px;">
+                No Photo
+              </div>
+              {% endif %}
+            </td>
+            <td>
+              <strong style="color: #111; font-size: 14px;">{{ p.title }}</strong>
+              <div style="font-size: 11px; color: #888; margin-top: 2px;">ID: #{{ p.id }} &bull; {{ p.created_at }}</div>
+            </td>
+            <td>
+              <span class="badge" style="background: #fff3d1; color: #9c6e00; border: 1px solid #fed166; padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 11px; text-transform: uppercase;">
+                {{ p.category }}
+              </span>
+            </td>
+            <td>
+              <div style="font-size: 12px; color: #444; max-height: 60px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">
+                {{ p.description }}
+              </div>
+            </td>
+            <td style="text-align: center; vertical-align: middle;">
+              <form method="post" action="{{ url_for('delete_project', project_id=p.id) }}" onsubmit="return confirm('Are you sure you want to delete project: {{ p.title }}? This cannot be undone.');">
+                <button class="btn btn-danger btn-small" type="submit" title="Delete Project">
+                  🗑 Delete
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="5" style="text-align: center; padding: 25px; color: #888;">
+              No projects added yet. Use the form above to add your first project.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- CUSTOMER ENQUIRIES TABLE -->
+  <div class="admin-card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+      <div>
+        <h2 style="margin: 0; font-size: 20px;">📬 Customer Inquiries &amp; Quotation Requests ({{ enquiries|length }})</h2>
+        <span style="font-size: 12px; color: #666;">Inquiries submitted through the contact and quote forms.</span>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 140px;">Date &amp; Time</th>
+            <th style="width: 160px;">Customer Name</th>
+            <th style="width: 200px;">Contact Details</th>
+            <th style="width: 140px;">Scope / Type</th>
+            <th>Message</th>
+            <th style="width: 80px; text-align: center;">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for e in enquiries %}
+          <tr>
+            <td style="font-size: 11px; color: #666;">{{ e.created_at }}</td>
+            <td><strong>{{ e.name }}</strong></td>
+            <td>
+              <a href="mailto:{{ e.email }}" style="color: #0b62a4; text-decoration: underline; font-size: 12px;">{{ e.email }}</a><br>
+              <a href="tel:{{ e.phone }}" style="font-weight: 700; color: #111; font-size: 12px;">📞 {{ e.phone }}</a>
+            </td>
+            <td>
+              <span class="badge" style="background: #eef2f6; color: #334e68; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 700;">
+                {{ e.project_type }}
+              </span>
+            </td>
+            <td style="font-size: 12px; line-height: 1.4; color: #333;">{{ e.message }}</td>
+            <td style="text-align: center; vertical-align: middle;">
+              <form method="post" action="{{ url_for('delete_enquiry', enquiry_id=e.id) }}" onsubmit="return confirm('Delete this customer inquiry from {{ e.name }}?');">
+                <button class="btn btn-danger btn-small" type="submit" style="padding: 4px 8px; font-size: 11px;">
+                  Delete
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 25px; color: #888;">
+              No customer inquiries received yet.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- REGISTERED CUSTOMERS TABLE -->
+  <div class="admin-card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+      <div>
+        <h2 style="margin: 0; font-size: 20px;">👥 Registered Accounts ({{ users|length }})</h2>
+        <span style="font-size: 12px; color: #666;">Users registered on Pushpa Construction portal.</span>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 60px;">ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th style="width: 120px;">Role</th>
+            <th style="width: 180px;">Registered Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for u in users %}
+          <tr>
+            <td>#{{ u.id }}</td>
+            <td><strong>{{ u.name }}</strong></td>
+            <td><a href="mailto:{{ u.email }}" style="color: #0b62a4;">{{ u.email }}</a></td>
+            <td>
+              {% if u.role == 'admin' %}
+              <span class="badge" style="background: #111; color: var(--gold); border: 1px solid var(--gold); padding: 3px 10px; border-radius: 12px; font-weight: 800; font-size: 11px;">
+                🛡️ Admin
+              </span>
+              {% else %}
+              <span class="badge" style="background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; padding: 3px 10px; border-radius: 12px; font-weight: 700; font-size: 11px;">
+                👤 Customer
+              </span>
+              {% endif %}
+            </td>
+            <td style="font-size: 12px; color: #666;">{{ u.created_at }}</td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="5" style="text-align: center; padding: 25px; color: #888;">No registered users found.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</section>
+{% endblock %}

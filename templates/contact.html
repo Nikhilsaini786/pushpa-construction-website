@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% block title %}Contact &amp; Location Map | Pushpa Construction Jaipur{% endblock %}
+{% block content %}
+<section class="page-hero">
+  <p class="eyebrow">GET IN TOUCH</p>
+  <h1>Let's Build Your Vision in Jaipur</h1>
+  <p>Speak directly with founder Prabhu Dayal Saini or our engineering team for free site consultations, structural estimates, and turnkey construction planning.</p>
+</section>
+
+<section class="section" style="max-width: 1300px; margin: auto; padding-top: 30px;">
+  <!-- QUICK CONTACT HIGHLIGHT CARDS -->
+  <div class="contact-quick-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-bottom: 35px;">
+    <div class="quick-card" style="background: #fff; border: 1px solid #e2e8f0; border-top: 4px solid var(--gold); border-radius: 8px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+      <span style="font-size: 26px; display: block; margin-bottom: 8px;">👑</span>
+      <h3 style="margin: 0 0 4px; font-size: 15px; font-weight: 800;">Prabhu Dayal Saini</h3>
+      <p style="margin: 0 0 10px; font-size: 12px; color: #666;">Founder &amp; Managing Director</p>
+      <a href="tel:+919351788485" style="color: #111; font-weight: 800; font-size: 14px; display: block;">📞 +91 93517 88485</a>
+      <a href="https://wa.me/919351788485?text=Hello%20Prabhu%20Dayal%20ji,%20I%20am%20interested%20in%20a%20construction%20project%20in%20Jaipur." target="_blank" rel="noopener" style="display: inline-block; margin-top: 8px; font-size: 12px; color: #128c7e; font-weight: 700;">
+        Chat on WhatsApp ➔
+      </a>
+    </div>
+
+    <div class="quick-card" style="background: #fff; border: 1px solid #e2e8f0; border-top: 4px solid #25D366; border-radius: 8px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+      <span style="font-size: 26px; display: block; margin-bottom: 8px;">💬</span>
+      <h3 style="margin: 0 0 4px; font-size: 15px; font-weight: 800;">WhatsApp Support</h3>
+      <p style="margin: 0 0 10px; font-size: 12px; color: #666;">Instant Quotes &amp; Photo Sharing</p>
+      <a href="https://wa.me/919351788485?text=Hi%20Pushpa%20Construction,%20I%20want%20to%20get%20a%20construction%20cost%20quotation." target="_blank" rel="noopener" style="color: #128c7e; font-weight: 800; font-size: 14px; display: block;">
+        📲 +91 93517 88485
+      </a>
+      <span style="display: inline-block; margin-top: 8px; font-size: 11px; color: #666;">Replies within 15 minutes</span>
+    </div>
+
+    <div class="quick-card" style="background: #fff; border: 1px solid #e2e8f0; border-top: 4px solid var(--gold2); border-radius: 8px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+      <span style="font-size: 26px; display: block; margin-bottom: 8px;">🏢</span>
+      <h3 style="margin: 0 0 4px; font-size: 15px; font-weight: 800;">Office Helpdesk</h3>
+      <p style="margin: 0 0 10px; font-size: 12px; color: #666;">General Inquiries &amp; Billing</p>
+      <a href="tel:+917976351000" style="color: #111; font-weight: 800; font-size: 14px; display: block;">📞 +91 79763 51000</a>
+      <span style="display: inline-block; margin-top: 8px; font-size: 11px; color: #666;">Mon - Sat: 9:00 AM - 8:00 PM</span>
+    </div>
+
+    <div class="quick-card" style="background: #fff; border: 1px solid #e2e8f0; border-top: 4px solid #111; border-radius: 8px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+      <span style="font-size: 26px; display: block; margin-bottom: 8px;">✉️</span>
+      <h3 style="margin: 0 0 4px; font-size: 15px; font-weight: 800;">Email Consultation</h3>
+      <p style="margin: 0 0 10px; font-size: 12px; color: #666;">Send blueprints &amp; tenders</p>
+      <a href="mailto:pushpaconstruction@gmail.com" style="color: #0b62a4; font-weight: 700; font-size: 13px; display: block; word-break: break-all;">pushpaconstruction@gmail.com</a>
+      <span style="display: inline-block; margin-top: 8px; font-size: 11px; color: #666;">Jaipur, Rajasthan, India</span>
+    </div>
+  </div>
+
+  <!-- MAIN CONTACT & MAP GRID -->
+  <div class="contact-main-grid" style="display: grid; grid-template-columns: 1.15fr 1fr; gap: 35px; align-items: start;">
+    
+    <!-- LEFT: INQUIRY FORM -->
+    <div class="form-card" style="box-shadow: 0 8px 25px rgba(0,0,0,0.06);">
+      <div style="border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 18px;">
+        <h2 style="margin: 0 0 6px; font-size: 22px;">Send an Inquiry</h2>
+        <p style="margin: 0; font-size: 13px; color: #666;">Submit your requirement directly to our team, or send it straight to WhatsApp.</p>
+      </div>
+
+      <form method="post" id="contactInquiryForm" class="form-grid">
+        <div class="field">
+          <label for="name">Full Name *</label>
+          <input id="name" name="name" maxlength="120" placeholder="e.g. Rahul Sharma" required value="{{ request.form.get('name','') }}">
+        </div>
+
+        <div class="field">
+          <label for="phone">Phone Number *</label>
+          <input id="phone" name="phone" type="tel" maxlength="30" placeholder="e.g. 98765 43210" required value="{{ request.form.get('phone','') }}">
+        </div>
+
+        <div class="field">
+          <label for="email">Email Address *</label>
+          <input id="email" name="email" type="email" maxlength="190" placeholder="name@example.com" required value="{{ request.form.get('email','') }}">
+        </div>
+
+        <div class="field">
+          <label for="project_type">Project Type *</label>
+          <select id="project_type" name="project_type" required>
+            <option value="">Select project type</option>
+            <option value="New Independent Villa / House">New Independent Villa / House</option>
+            <option value="Commercial Complex / Showroom">Commercial Complex / Showroom</option>
+            <option value="Apartment / Multi-Storey Building">Apartment / Multi-Storey Building</option>
+            <option value="Complete Home Renovation">Complete Home Renovation</option>
+            <option value="Architectural Design &amp; Elevation">Architectural Design &amp; Elevation</option>
+            <option value="Turnkey Contracting (Material + Labor)">Turnkey Contracting (Material + Labor)</option>
+          </select>
+        </div>
+
+        <div class="field full">
+          <label for="message">Project Requirements &amp; Location *</label>
+          <textarea id="message" name="message" rows="4" maxlength="5000" placeholder="Tell us about the plot area (e.g. 200 sq yards), location in Jaipur (e.g. Mansarovar, Vaishali Nagar), number of floors, budget, or timeline..." required>{{ request.form.get('message','') }}</textarea>
+        </div>
+
+        <div class="full" style="display: flex; gap: 14px; flex-wrap: wrap; margin-top: 10px;">
+          <button class="btn btn-primary" type="submit" style="flex: 1; padding: 13px; font-size: 13.5px;">
+            📨 Submit to Team Inbox
+          </button>
+          <button type="button" id="sendWhatsAppBtn" class="btn" style="flex: 1; background: #25D366; color: #fff; padding: 13px; font-size: 13.5px; border: 1px solid #1ebe5d; box-shadow: 0 3px 10px rgba(37,211,102,0.35);">
+            💬 Send Directly on WhatsApp
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- RIGHT: GOOGLE MAPS & LOCATION DETAILS -->
+    <div class="map-card" style="background: #fff; border: 1px solid #e5d6ac; border-radius: 8px; padding: 24px; box-shadow: 0 8px 25px rgba(0,0,0,0.06);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+        <div>
+          <h2 style="margin: 0 0 4px; font-size: 20px;">📍 Jaipur Operations &amp; Map</h2>
+          <span style="font-size: 12px; color: #666;">Headquartered in Jaipur, serving all prime districts</span>
+        </div>
+        <a href="https://www.google.com/maps/dir/?api=1&destination=Jaipur,+Rajasthan,+India" target="_blank" rel="noopener" class="btn btn-dark btn-small" style="font-size: 11.5px; padding: 6px 12px;">
+          🧭 Get Directions ↗
+        </a>
+      </div>
+
+      <!-- RESPONSIVE GOOGLE MAPS IFRAME -->
+      <div class="google-map-container" style="position: relative; width: 100%; height: 320px; border-radius: 6px; overflow: hidden; border: 2px solid var(--gold); box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <iframe 
+          title="Pushpa Construction Jaipur Location Map"
+          src="https://maps.google.com/maps?q=Jaipur%2C%20Rajasthan%2C%20India&t=&z=13&ie=UTF8&iwloc=&output=embed" 
+          width="100%" 
+          height="100%" 
+          style="border:0;" 
+          allowfullscreen="" 
+          loading="lazy" 
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+
+      <!-- KEY LOCALITIES COVERED IN JAIPUR -->
+      <div style="margin-top: 20px;">
+        <h4 style="margin: 0 0 10px; font-size: 13px; text-transform: uppercase; color: var(--gold2); letter-spacing: 0.5px;">
+          Active Project Zones in Jaipur:
+        </h4>
+        <div style="display: flex; flex-wrap: wrap; gap: 7px;">
+          <span class="badge" style="background: #f4f6f8; color: #333; padding: 4px 10px; border-radius: 4px; font-size: 11px; border: 1px solid #ddd;">📍 Vaishali Nagar</span>
+          <span class="badge" style="background: #f4f6f8; color: #333; padding: 4px 10px; border-radius: 4px; font-size: 11px; border: 1px solid #ddd;">📍 Mansarovar</span>
+          <span class="badge" style="background: #f4f6f8; color: #333; padding: 4px 10px; border-radius: 4px; font-size: 11px; border: 1px solid #ddd;">📍 Jagatpura</span>
+          <span class="badge" style="background: #f4f6f8; color: #333; padding: 4px 10px; border-radius: 4px; font-size: 11px; border: 1px solid #ddd;">📍 Malviya Nagar</span>
+          <span class="badge" style="background: #f4f6f8; color: #333; padding: 4px 10px; border-radius: 4px; font-size: 11px; border: 1px solid #ddd;">📍 Tonk Road &amp; Sitapura</span>
+          <span class="badge" style="background: #f4f6f8; color: #333; padding: 4px 10px; border-radius: 4px; font-size: 11px; border: 1px solid #ddd;">📍 Ajmer Road &amp; Mahindra SEZ</span>
+          <span class="badge" style="background: #f4f6f8; color: #333; padding: 4px 10px; border-radius: 4px; font-size: 11px; border: 1px solid #ddd;">📍 Sirsi Road &amp; Kalwar Road</span>
+          <span class="badge" style="background: #f4f6f8; color: #333; padding: 4px 10px; border-radius: 4px; font-size: 11px; border: 1px solid #ddd;">📍 C-Scheme &amp; Civil Lines</span>
+        </div>
+      </div>
+
+      <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid #eee; display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: #555;">
+        <span>✅ Free on-site survey &amp; plot inspection</span>
+        <a href="https://wa.me/919351788485?text=Hi%20Prabhu%20Dayal%20ji,%20I%20would%20like%20to%20book%20a%20free%20site%20visit%20in%20Jaipur." target="_blank" rel="noopener" style="color: #128c7e; font-weight: 800;">
+          Schedule Visit ➔
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}
+

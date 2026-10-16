@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Admin Portal Login | Pushpa Construction{% endblock %}
+{% block content %}
+<section class="auth-section" style="background: linear-gradient(135deg, #0b0d0e, #181d20); min-height: 75vh;">
+  <div class="auth-card" style="border: 2px solid var(--gold); box-shadow: 0 15px 40px rgba(0,0,0,0.6); background: #111517; color: #fff;">
+    <div style="text-align: center; margin-bottom: 20px;">
+      <div style="display: inline-block; background: rgba(255,189,8,0.15); border: 1px solid var(--gold); border-radius: 20px; padding: 4px 16px; margin-bottom: 10px;">
+        <span style="color: var(--gold); font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">🛡️ Authorized Personnel Only</span>
+      </div>
+      <h1 style="color: #fff; font-size: 28px; margin: 5px 0;">Admin Control Panel</h1>
+      <p style="color: #aaa; font-size: 13px; margin: 0;">Enter your administrator credentials to manage projects, review customer enquiries, and update website content.</p>
+    </div>
+
+    <form method="post" class="form-grid">
+      <div class="field full">
+        <label for="admin_email" style="color: #e0e0e0;">Administrator Email</label>
+        <input id="admin_email" name="email" type="email" autocomplete="username" placeholder="admin@example.com" style="background: #1b2123; border: 1px solid #444; color: #fff;" required>
+      </div>
+      
+      <div class="field full">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <label for="admin_password" style="color: #e0e0e0;">Master Password</label>
+          <a href="{{ url_for('forgot_password') }}" style="font-size: 12px; color: var(--gold); font-weight: 700;">Forgot Password?</a>
+        </div>
+        <div class="password-wrap">
+          <input id="admin_password" name="password" type="password" autocomplete="current-password" placeholder="Enter your admin password" style="background: #1b2123; border: 1px solid #444; color: #fff;" required>
+          <button type="button" class="toggle-password" data-target="admin_password" aria-label="Toggle password visibility" title="Show/Hide Password" style="color: #aaa;">
+            <svg class="eye-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+            <svg class="eye-closed" style="display:none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+              <line x1="1" y1="1" x2="23" y2="23"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="full">
+        <button class="btn btn-yellow btn-block" style="width: 100%; padding: 14px; font-size: 14px; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(255,189,8,0.35);" type="submit">
+          🔐 Log In to Admin Panel
+        </button>
+      </div>
+    </form>
+
+    <div style="margin-top: 25px; padding-top: 18px; border-top: 1px solid #2a2f32; text-align: center;">
+      <span style="font-size: 12px; color: #888;">Looking for customer account?</span><br>
+      <a href="{{ url_for('login') }}" style="display: inline-block; margin-top: 8px; font-size: 13px; color: var(--gold); font-weight: 700;">← Go to Customer Login</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

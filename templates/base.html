@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+  
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Pushpa Construction - Building Trust, Creating Landmarks in Jaipur, Rajasthan.">
+  <title>{% block title %}Pushpa Construction | Jaipur{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-left"><a href="tel:+919351788485">☎ +91 93517 88485</a><a href="tel:+917976351000">☎ +91 79763 51000</a><span>📍 Jaipur, Rajasthan, India</span></div>
+    <div class="topbar-tag">Building Trust&nbsp; • &nbsp;Creating Landmarks</div>
+  </div>
+  <header class="site-header">
+    <a class="brand" href="{{ url_for('home') }}">
+      <img
+        class="brand-logo-img"
+        src="{{ url_for('static', filename='image/logo.png') }}"
+        alt="Pushpa Construction Logo">
+    </a>
+
+    <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    <nav class="nav-links">
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('home') }}#about">About Us</a>
+      <a href="{{ url_for('home') }}#services">Services</a>
+      <a href="{{ url_for('projects') }}">Projects</a>
+      <a href="{{ url_for('calculator') }}">Cost Calculator</a>
+      <a href="{{ url_for('ai_design') }}" style="color: var(--gold); font-weight: 800;">✦ AI Design</a>
+      <a href="{{ url_for('contact') }}">Contact Us</a>
+      {% if nav_user %}
+        {% if nav_is_admin %}
+          <a href="{{ url_for('admin') }}" class="nav-admin-badge">🛡️ Admin Panel</a>
+          <a href="{{ url_for('logout') }}" style="color: #ff9999;">Logout (Admin)</a>
+        {% else %}
+          <span style="color: #bbb; text-transform: none; font-weight: 500;">Hi, {{ nav_user.name }}</span>
+          <a href="{{ url_for('logout') }}">Logout</a>
+        {% endif %}
+      {% else %}
+        <a href="{{ url_for('login') }}">Customer Login</a>
+        <a href="{{ url_for('admin_login') }}" class="nav-admin-link">🔐 Admin Portal</a>
+        <a class="nav-cta" href="{{ url_for('contact') }}">Get a Quote</a>
+      {% endif %}
+    </nav>
+  </header>
+  <main>
+    <div class="flash-wrap">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}<div class="flash flash-{{ category }}" role="status">{{ message }}</div>{% endfor %}
+      {% endwith %}
+    </div>
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="site-footer">
+    
+    <div class="footer-brand-col">
+      <a class="brand footer-brand" href="{{ url_for('home') }}">
+        <img
+          class="brand-logo-img"
+          src="{{ url_for('static', filename='image/logo.png') }}"
+          alt="Pushpa Construction Logo">
+      </a>
+      <p>© 2026 Pushpa Construction.<br>All Rights Reserved.</p>
+    </div>
+
+    <div>
+      <h3>Quick Links</h3>
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('home') }}#about">About Us</a>
+      <a href="{{ url_for('home') }}#services">Services</a>
+      <a href="{{ url_for('projects') }}">Projects</a>
+      <a href="{{ url_for('calculator') }}">Cost Calculator</a>
+      <a href="{{ url_for('ai_design') }}">✦ AI House Design Studio</a>
+      <a href="{{ url_for('contact') }}">Contact &amp; Location Map</a>
+      <a href="{{ url_for('login') }}">Customer Login</a>
+      <a href="{{ url_for('admin_login') }}" style="color: var(--gold); font-weight: 700; margin-top: 6px;">🔐 Admin Portal Login</a>
+    </div>
+    <div>
+      <h3>Our Services</h3>
+      <a href="{{ url_for('home') }}#services">House Construction</a>
+      <a href="{{ url_for('home') }}#services">Commercial Buildings</a>
+      <a href="{{ url_for('home') }}#services">Renovation &amp; Remodeling</a>
+      <a href="{{ url_for('home') }}#services">Architecture &amp; Planning</a>
+      <a href="{{ url_for('home') }}#services">Infrastructure Development</a>
+      <a href="{{ url_for('home') }}#services">Construction Contracting</a>
+    </div>
+    <div class="footer-contact">
+      <h3>Contact Us</h3>
+      <p>📍 Jaipur, Rajasthan, India</p>
+      <p>☎ +91 93517 88485 (Prabhu Dayal Saini)</p>
+      <p>☎ +91 79763 51000 (Office Desk)</p>
+      <p>✉ pushpaconstruction@gmail.com</p>
+      <div style="margin-top: 12px;">
+        <a href="https://wa.me/919351788485?text=Hello%20Pushpa%20Construction,%20I%20would%20like%20to%20discuss%20a%20construction%20project%20in%20Jaipur." target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 6px; background: #25D366; color: #fff; padding: 6px 12px; border-radius: 4px; font-weight: 700; font-size: 11px;">
+          💬 Chat on WhatsApp
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING WHATSAPP CHAT WIDGET -->
+  <div class="whatsapp-widget" id="whatsappWidget">
+    <div class="whatsapp-card" id="whatsappCard" style="display: none;">
+      <div class="whatsapp-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div class="wa-avatar-ring">
+            <span style="font-size: 20px;">🏗️</span>
+          </div>
+          <div>
+            <strong>Pushpa Construction</strong>
+            <small style="display: block; color: #d4f8d4; font-size: 11px;">🟢 Online &bull; Jaipur, Rajasthan</small>
+          </div>
+        </div>
+        <button type="button" class="wa-close-btn" id="waCloseBtn" aria-label="Close WhatsApp chat">✕</button>
+      </div>
+
+      <div class="whatsapp-body">
+        <p style="margin: 0 0 12px; font-size: 12.5px; line-height: 1.4; color: #333;">
+          Namaste! 🙏 How can we help you build your dream home or commercial project today?
+        </p>
+
+        <a class="wa-contact-row" href="https://wa.me/919351788485?text=Hello%20Prabhu%20Dayal%20ji,%20I%20am%20interested%20in%20a%20construction%20project%20in%20Jaipur.%20Please%20guide%20me." target="_blank" rel="noopener">
+          <div class="wa-badge-icon">👑</div>
+          <div style="flex-grow: 1;">
+            <strong>Prabhu Dayal Saini</strong>
+            <small style="display: block; color: #555;">Founder &amp; Managing Director</small>
+            <span style="color: #128c7e; font-weight: 700; font-size: 11px;">+91 93517 88485 ➔</span>
+          </div>
+        </a>
+
+        <a class="wa-contact-row" href="https://wa.me/917976351000?text=Hello%20Pushpa%20Construction,%20I%20want%20to%20request%20a%20quotation%20and%20schedule%20a%20site%20visit." target="_blank" rel="noopener">
+          <div class="wa-badge-icon">🏢</div>
+          <div style="flex-grow: 1;">
+            <strong>Helpdesk &amp; Quotations</strong>
+            <small style="display: block; color: #555;">Cost Estimates &amp; Site Visits</small>
+            <span style="color: #128c7e; font-weight: 700; font-size: 11px;">+91 79763 51000 ➔</span>
+          </div>
+        </a>
+
+        <div style="margin-top: 10px; padding-top: 8px; border-top: 1px dashed #ddd;">
+          <span style="font-size: 11px; color: #777; font-weight: 700;">Quick Topics:</span>
+          <div class="wa-quick-pills">
+            <a href="https://wa.me/919351788485?text=Hi,%20what%20is%20the%20cost%20per%20sq%20ft%20for%20house%20construction%20in%20Jaipur?" target="_blank" rel="noopener">💰 Cost per sq ft</a>
+            <a href="https://wa.me/919351788485?text=Hi,%20I%20want%20to%20book%20a%20free%20site%20inspection%20in%20Jaipur." target="_blank" rel="noopener">📍 Free Site Visit</a>
+            <a href="https://wa.me/919351788485?text=Hi,%20I%20need%20architectural%20and%20map%20approval%20help." target="_blank" rel="noopener">📐 Map &amp; Elevation</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="whatsapp-float-btn" id="whatsappFloatBtn" title="Chat on WhatsApp with Pushpa Construction" aria-label="Chat with us on WhatsApp">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2zm5.78 14.17c-.24.68-1.4 1.26-1.92 1.34-.52.08-1.2.11-3.69-.93-2.96-1.24-4.88-4.24-5.03-4.44-.15-.2-1.21-1.61-1.21-3.07 0-1.46.76-2.18 1.03-2.48.27-.3.59-.37.79-.37.2 0 .4 0 .58.01.19.01.44-.07.69.52.26.61.88 2.14.96 2.3.08.16.13.35.03.56-.1.21-.15.35-.3.53-.15.18-.32.4-.46.54-.15.15-.31.32-.13.63.18.31.79 1.3 1.7 2.11 1.17 1.04 2.16 1.37 2.47 1.52.31.15.49.13.67-.08.18-.21.78-.91.99-1.22.21-.31.42-.26.71-.15.29.11 1.84.87 2.16 1.03.32.16.53.24.61.37.08.13.08.76-.16 1.44z"/>
+      </svg>
+      <span class="wa-float-text">Chat with Us</span>
+      <span class="wa-pulse-dot"></span>
+    </button>
+  </div>
+</body>
+</html>
